@@ -22,6 +22,20 @@ You need to install opencv for this to work right.
 
 ## Usage
 
+### Simple
+
+```coffee-script
+faces = require 'faces'
+fs = require 'fs'
+
+mona = fs.readFileSync 'mona.png'
+
+faces.find mona, (err, faces) ->
+   console.log "There are #{faces.length} faces"
+```
+
+### Streams
+
 ```coffee-script
 faces = require 'faces'
 
