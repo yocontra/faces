@@ -53,6 +53,8 @@ faceStream.on 'data', (frame, faces) ->
   # faces is an array of faces
 ```
 
+## Docs
+
 ### createStream(opt)
 
 createStream returns a readable/writeable stream that you can pipe image buffers too. Takes most image formats (png, jpeg, tiff, etc.) - .write(image buffer) and it will .emit('data', image buffer, faces, cvimg)
@@ -61,7 +63,7 @@ createStream returns a readable/writeable stream that you can pipe image buffers
 
 The actual facial recognition worker. opt is optional. Callback receives (err, faces) where faces is an array of ```{x,y,height,width}```
 
-## draw(faces, cvimg, opt, cb)
+### draw(faces, cvimg, opt, cb)
 
 opt.type can be either ellipse or rectangle
 opt.color = [0,255,0] by default
