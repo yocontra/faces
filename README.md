@@ -24,6 +24,8 @@ faces = require 'faces'
 faceStream = faces.createStream
   scale: 2
   min: [10, 10]
+  draw: # optional, only specify this if you want to alter the image
+    type: 'ellipse'
 
 videoStream = someStream()
 videoStream.pipe faceStream

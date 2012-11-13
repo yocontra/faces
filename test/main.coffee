@@ -28,6 +28,22 @@ describe 'faces', ->
       
       s.write mona
 
+    it 'should work with draw (ellipse)', (done) ->
+      s = faces.createStream
+        draw:
+          type: 'ellipse'
+      should.exist s
+      s.should.be.instanceof Stream
+
+      s.on 'error', (err) -> throw err
+      s.on 'data', (buf, faces) ->
+        should.exist buf
+        faces.length.should.equal 1
+        fs.writeFileSync join(__dirname, './newmona.png'), buf
+        done()
+      
+      s.write mona
+
   describe 'find()', ->
     it 'should find mona lisa', (done) ->
       faces.find mona, (err, faces) ->

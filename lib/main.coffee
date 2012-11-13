@@ -10,22 +10,36 @@ class FaceStream extends Stream
     @writable = true
     @readable = true
     @destroyed = false
+    if @opt.draw?.type?
+      @opt.draw.color ?= [0,255,0]
+      @opt.draw.thickness ?= 2
 
   write: (buf) ->
-    faces.find buf, @opt, (err, faces, im) =>
+    return @ if @destroyed
+    faces.find buf, @opt, (err, faceres, im) =>
       return if @destroyed
       return @emit 'error', err if err?
-      @emit 'data', buf, faces, im
+      if @opt.draw?.type?
+        faces.draw buf, faceres, im, @opt.draw, (err, buff) =>
+          @emit 'data', buff, faceres, im
+      else
+        @emit 'data', buf, faceres, im
+    return @
 
-  destroy: -> @destroyed = true
-  end: -> @destroy()
+  destroy: -> 
+    @destroyed = true
+    return @
+
+  end: -> 
+    @destroy()
+    return @
 
 module.exports = faces =
   createStream: (opt) -> new FaceStream opt
 
   toImageUrl: (buf, fmt='png') ->
     "data:image/#{fmt};base64,#{buf.toString('base64')}"
-    
+
   find: (buf, opt, cb) ->
     if typeof opt is 'function'
       cb = opt
@@ -40,3 +54,17 @@ module.exports = faces =
         return cb err if err?
         cb null, f, im
       cascade.detectMultiScale im, done, opt.neighbors, opt.scale, opt.min
+
+  draw: (buf, faces, im, opt, cb) ->
+    switch opt.type
+      when 'rectangle'
+        for f in faces
+          im.rectangle [f.x,f.y], [f.x+f.width,f.y+f.height], opt.color, opt.thickness
+
+      when 'ellipse'
+        for f in faces
+          im.ellipse f.x+f.width/2, f.y+f.height/2, f.width/2, f.height/2, opt.color, opt.thickness
+
+    im.toBuffer cb
+
+
