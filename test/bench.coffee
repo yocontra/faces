@@ -9,6 +9,7 @@ require 'mocha'
 mona = fs.readFileSync join __dirname, './mona.png'
 
 acceptable = 50
+iterations = 60
 
 describe 'faces', ->
   describe 'find()', ->
@@ -37,9 +38,8 @@ describe 'faces', ->
           count.push dur
           cb()
 
-      under = -> count.length < 50
+      under = -> count.length < iterations
       async.whilst under, run, (e) ->
         should.not.exist e
-        for c in count
-          (c < acceptable).should.equal true
+        throw "Slow! #{c}" for c in count when c > acceptable
         done()
