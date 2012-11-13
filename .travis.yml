@@ -7,4 +7,4 @@ node_js:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq opencv
+  - sudo apt-get install -qq libopencv-*
