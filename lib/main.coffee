@@ -37,6 +37,14 @@ class FaceStream extends Stream
 module.exports = faces =
   createStream: (opt) -> new FaceStream opt
 
+  findCenter: ({x,y,width,height}) ->
+    centerX = 320
+    centerY = 184
+    matchCenterX = x+(width/2)
+    x: matchCenterX
+    y: coordinate.y+(height/2)
+    xDist: Math.abs(centerX-matchCenterX)
+
   toImageUrl: (buf, fmt='png') ->
     "data:image/#{fmt};base64,#{buf.toString('base64')}"
 

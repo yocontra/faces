@@ -16,6 +16,10 @@
 </tr>
 </table>
 
+## Dependencies
+
+You need to install opencv for this to work right.
+
 ## Usage
 
 ```coffee-script
