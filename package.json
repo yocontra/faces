@@ -1,14 +1,16 @@
 {
-   "name":"APPNAME",
-   "description":"Nothing here yet",
+   "name":"faces",
+   "description":"Facial recognition",
    "version":"0.0.1",
-   "homepage":"http://github.com/wearefractal/APPNAME",
-   "repository":"git://github.com/wearefractal/APPNAME.git",
+   "homepage":"http://github.com/wearefractal/faces",
+   "repository":"git://github.com/wearefractal/faces.git",
    "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
    "main":"./index.js",
    
    "dependencies":{
-      "coffee-script":"*"
+      "coffee-script":"*",
+      "opencv":"*",
+      "async":"*"
    },
    "devDependencies":{
       "mocha":"*",
@@ -23,7 +25,7 @@
    "licenses":[
       {
          "type":"MIT",
-         "url":"http://github.com/wearefractal/APPNAME/raw/master/LICENSE"
+         "url":"http://github.com/wearefractal/faces/raw/master/LICENSE"
       }
    ]
 }

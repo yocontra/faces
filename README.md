@@ -1,14 +1,14 @@
-![status](https://secure.travis-ci.org/wearefractal/APPNAME.png?branch=master)
+![status](https://secure.travis-ci.org/wearefractal/faces.png?branch=master)
 
 ## Information
 
 <table>
 <tr> 
-<td>Package</td><td>APPNAME</td>
+<td>Package</td><td>faces</td>
 </tr>
 <tr>
 <td>Description</td>
-<td>NOTHING HERE YET</td>
+<td>Facial Recognition</td>
 </tr>
 <tr>
 <td>Node Version</td>
@@ -19,12 +19,35 @@
 ## Usage
 
 ```coffee-script
-NOTHING HERE YET
+faces = require 'faces'
+
+faceStream = faces.createStream
+  scale: 2
+  min: [10, 10]
+
+videoStream = someStream()
+videoStream.pipe faceStream
+
+faceStream.on 'data', (frame, faces) ->
+  # frame is an image buffer
+  # faces is an array of faces
 ```
+
+### createStream(opt)
+
+createStream returns a readable/writeable stream that you can pipe image buffers too. Takes most image formats (png, jpeg, tiff, etc.) - .write(image buffer) and it will .emit('data', image buffer, faces)
+
+### find(buffer, opt, cb)
+
+The actual facial recognition worker. opt is optional. Callback receives (err, faces) where faces is an array of ```{x,y,height,width}```
+
+### toImageUrl(buf, fmt="png")
+
+Turns an image buffer into a base64 data uri - useful for rendering to a webpage or sending over websockets.
 
 ## Examples
 
-You can view more examples in the [example folder.](https://github.com/wearefractal/APPNAME/tree/master/examples)
+You can view more examples in the [example folder.](https://github.com/wearefractal/faces/tree/master/examples)
 
 ## LICENSE
 
