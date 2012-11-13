@@ -20,7 +20,7 @@ class FaceStream extends Stream
       return if @destroyed
       return @emit 'error', err if err?
       if @opt.draw?.type?
-        faces.draw buf, faceres, im, @opt.draw, (err, buff) =>
+        faces.draw faceres, im, @opt.draw, (err, buff) =>
           @emit 'data', buff, faceres, im
       else
         @emit 'data', buf, faceres, im
@@ -55,7 +55,7 @@ module.exports = faces =
         cb null, f, im
       cascade.detectMultiScale im, done, opt.neighbors, opt.scale, opt.min
 
-  draw: (buf, faces, im, opt, cb) ->
+  draw: (faces, im, opt, cb) ->
     switch opt.type
       when 'rectangle'
         for f in faces
