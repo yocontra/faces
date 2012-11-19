@@ -1,41 +1,20 @@
 cv = require 'opencv'
 {join} = require 'path'
 async = require 'async'
-{Stream} = require 'stream'
+es = require 'event-stream'
 
 cascade = new cv.CascadeClassifier join __dirname, "./haarcascade_frontalface_alt.xml"
 
-class FaceStream extends Stream
-  constructor: (@opt={}) ->
-    @writable = true
-    @readable = true
-    @destroyed = false
-    if @opt.draw?.type?
-      @opt.draw.color ?= [0,255,0]
-      @opt.draw.thickness ?= 2
-
-  write: (buf) ->
-    return @ if @destroyed
-    faces.find buf, @opt, (err, faceres, im) =>
-      return if @destroyed
-      return @emit 'error', err if err?
-      if @opt.draw?.type?
-        faces.draw faceres, im, @opt.draw, (err, buff) =>
-          @emit 'data', buff, faceres, im
-      else
-        @emit 'data', buf, faceres, im
-    return @
-
-  destroy: -> 
-    @destroyed = true
-    return @
-
-  end: -> 
-    @destroy()
-    return @
-
 module.exports = faces =
-  createStream: (opt) -> new FaceStream opt
+  createStream: (opt={}) -> es.map (data, cb) ->
+    faces.find data, opt, (err, faceres, im) ->
+      return cb err if err?
+      if opt.draw?.type?
+        faces.draw faceres, im, opt.draw, (err, buff) ->
+          return cb err if err?
+          cb null, buff, faceres, im
+      else
+        cb null, data, faceres, im
 
   findCenter: ({x,y,width,height}) ->
     centerX = 320
@@ -64,6 +43,8 @@ module.exports = faces =
       cascade.detectMultiScale im, done, opt.neighbors, opt.scale, opt.min
 
   draw: (faces, im, opt, cb) ->
+    opt.color ?= [0,255,0]
+    opt.thickness ?= 2
     switch opt.type
       when 'rectangle'
         for f in faces

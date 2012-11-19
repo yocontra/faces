@@ -25,7 +25,7 @@ describe 'faces', ->
         should.exist buf
         faces.length.should.equal 1
         done()
-      
+
       s.write mona
 
     it 'should work with draw (ellipse)', (done) ->
@@ -38,6 +38,7 @@ describe 'faces', ->
       s.on 'error', (err) -> throw err
       s.on 'data', (buf, faces) ->
         should.exist buf
+        should.exist faces
         faces.length.should.equal 1
         fs.writeFileSync join(__dirname, './newmona.png'), buf
         done()
