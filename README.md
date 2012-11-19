@@ -16,6 +16,8 @@
 </tr>
 </table>
 
+![Mona](https://raw.github.com/wearefractal/faces/master/test/newmona.png)
+
 ## Dependencies
 
 You need to install opencv for this to work right.
