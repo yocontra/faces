@@ -76,6 +76,10 @@ cb receives (err, buff) where buff is a new image buffer
 
 Turns an image buffer into a base64 data uri - useful for rendering to a webpage or sending over websockets.
 
+### load(file)
+
+Load a custom OpenCV cascade file. (example: ```faces.load("cars.xml")```)
+
 ## Examples
 
 You can view more examples in the [example folder.](https://github.com/wearefractal/faces/tree/master/examples)

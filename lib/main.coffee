@@ -3,9 +3,10 @@ cv = require 'opencv'
 async = require 'async'
 es = require 'event-stream'
 
-cascade = new cv.CascadeClassifier join __dirname, "./haarcascade_frontalface_alt.xml"
-
 module.exports = faces =
+  load: (file) -> 
+    faces.cascade = new cv.CascadeClassifier file
+
   createStream: (opt={}) -> es.map (data, cb) ->
     faces.find data, opt, (err, faceres, im) ->
       return cb err if err?
@@ -40,7 +41,7 @@ module.exports = faces =
       done = (err, f) ->
         return cb err if err?
         cb null, f, im
-      cascade.detectMultiScale im, done, opt.neighbors, opt.scale, opt.min
+      faces.cascade.detectMultiScale im, done, opt.neighbors, opt.scale, opt.min
 
   draw: (faces, im, opt, cb) ->
     opt.color ?= [0,255,0]
@@ -56,4 +57,4 @@ module.exports = faces =
 
     im.toBuffer cb
 
-
+faces.load join __dirname, "./face.xml"

@@ -1,7 +1,7 @@
 {
    "name":"faces",
    "description":"Facial recognition",
-   "version":"0.0.2",
+   "version":"0.0.3",
    "homepage":"http://github.com/wearefractal/faces",
    "repository":"git://github.com/wearefractal/faces.git",
    "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
